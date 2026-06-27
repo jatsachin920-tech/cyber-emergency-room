@@ -61,7 +61,7 @@ const TriageDesk = ({ onScamDetected }) => {
     setResult(null);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8080/api/ai/analyze', {
+      const response = await axios.post('https://cyber-emergency-room.onrender.com/api/ai/analyze', {
         text: inputText,
         language: language
       });

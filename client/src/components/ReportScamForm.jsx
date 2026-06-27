@@ -14,7 +14,7 @@ const ReportScamForm = ({ onScamReported }) => {
     setStatus({ type: '', text: '' });
 
     try {
-      const response = await axios.post('http://localhost:8080/api/ai/analyze', {
+      const response = await axios.post('https://cyber-emergency-room.onrender.com/api/ai/analyze', {
         text: `REPORTED FRAUD - Type: ${formData.threatType}. Content: ${formData.textSnippet}`,
         language: 'english'
       });

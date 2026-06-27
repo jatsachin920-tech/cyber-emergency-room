@@ -29,7 +29,7 @@ const CommunityFeed = ({ refreshTrigger }) => {
 
   const fetchFeed = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/ai/feed');
+      const response = await axios.get('https://cyber-emergency-room.onrender.com/api/ai/feed');
       if (response.data && response.data.success && response.data.data && response.data.data.length > 0) {
         setFeeds(response.data.data);
         setIsLive(true);

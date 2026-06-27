@@ -16,7 +16,7 @@ import AnalyticsChart from './AnalyticsChart';
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/ai/analytics/stats?t=${Date.now()}`);
+        const response = await axios.get(`https://cyber-emergency-room.onrender.com/api/ai/analytics/stats?t=${Date.now()}`);
         if (response.data && response.data.success) {
           setStats(response.data.stats);
           setIsLive(true); 
