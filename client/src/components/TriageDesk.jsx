@@ -56,7 +56,7 @@ const TriageDesk = ({ onScamDetected }) => {
       return;
     }
 
-    loading(true);
+    setLoading(true);
     setError('');
     setResult(null);
 
