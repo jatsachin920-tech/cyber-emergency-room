@@ -12,10 +12,13 @@ if (process.env.ATLASDB_URL) {
 }
 connectDB(); 
 
+const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+
 const allowedOrigins = [
   "http://localhost:5173",
   "http://127.0.0.1:5173",
-  "http://localhost:3000"
+  "http://localhost:3000",
+  frontendUrl 
 ];
 
 app.use(cors({
@@ -23,7 +26,7 @@ app.use(cors({
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error(`CORS Blocked: Origin ${origin} not allowed`));
     }
   },
   methods: ["GET", "POST"],
@@ -40,10 +43,16 @@ app.get("/", (req, res) => {
 
 app.use((err, req, res, next) => {
   console.error("🚨 GLOBAL SERVER ERROR:", err.message);
-  res.status(200).json({ 
-    success: true, 
-    message: "System recovered from an anomaly cleanly.",
-    data: { isScam: false, confidenceScore: 0, threatType: "Safe Check", immediateActionSteps: [] }
+  if (err.message.includes("CORS")) {
+    return res.status(403).json({
+      success: false,
+      message: err.message
+    });
+  }
+  res.status(500).json({ 
+    success: false, 
+    message: "Internal Server Error",
+    error: err.message
   });
 });
 
