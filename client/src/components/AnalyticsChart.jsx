@@ -1,4 +1,3 @@
-// src/components/AnalyticsChart.jsx
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
 
@@ -39,8 +38,20 @@ const AnalyticsChart = ({ stats }) => {
         
         <div className="h-48 w-full font-mono text-[11px]">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={displayData}>
-              <XAxis dataKey="name" stroke="#64748b" fontSize={11} tickLine={false} />
+            <BarChart data={displayData} margin={{ bottom: 35 }}>
+              <XAxis dataKey="name" stroke="#64748b" tickLine={false} interval={0}  
+          
+              tick={({ x, y, payload }) => {
+              const words = payload.value.split(' ');
+              return (
+              <text x={x} y={y+10} cx={x} cy={y} dy={20} textAnchor="middle" fill="#64748b" fontSize={11} fontFamily="monospace">
+              <tspan x={x} dy="0" className="hidden md:inline">{payload.value}</tspan>
+              <tspan x={x} dy="0" className="inline md:hidden">{words[0]}</tspan>
+              {words[1] && <tspan x={x} dy="12" className="inline md:hidden">{words[1]}</tspan>}
+              </text>
+              );
+             }}
+             />
               <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} width={25} />
               <Tooltip 
                 contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', color: '#f1f5f9' }}
