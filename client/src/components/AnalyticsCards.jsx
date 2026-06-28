@@ -5,10 +5,10 @@ import AnalyticsChart from './AnalyticsChart';
   const AnalyticsCards = ({ refreshTrigger }) => {
   
   const [stats, setStats] = useState({
-    totalDetected: 142,
-    bankingFrauds: 68,
-    utilityFrauds: 45,
-    communityAlerts: 29
+    totalDetected:0,
+    bankingFrauds:0,
+    utilityFrauds:0,
+    communityAlerts:0
   });
 
   const [isLive, setIsLive] = useState(false); 
