@@ -1,46 +1,47 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const ReportScamForm = ({ onScamReported }) => {
-  const [formData, setFormData] = useState({ textSnippet: '', threatType: 'Phishing / Banking' });
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState({ type: '', text: '' }); 
+ const ReportScamForm = ({ onScamReported }) => {
+ const [formData, setFormData] = useState({ textSnippet: '', threatType: 'BANKING PHISHING' });
+ const [loading, setLoading] = useState(false);
+ const [status, setStatus] = useState({ type: '', text: '' }); 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!formData.textSnippet.trim()) return;
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!formData.textSnippet.trim()) return;
 
-    setLoading(true);
-    setStatus({ type: '', text: '' });
+  setLoading(true);
+  setStatus({ type: '', text: '' });
 
-    try {
-      const response = await axios.post('https://cyber-emergency-room.onrender.com/api/ai/analyze', {
-        text: `REPORTED FRAUD - Type: ${formData.threatType}. Content: ${formData.textSnippet}`,
-        language: 'english'
-      });
+  try {
+    const response = await axios.post('https://cyber-emergency-room.onrender.com/api/ai/analyze', {
+      text: `REPORTED FRAUD - Type: ${formData.threatType}. Content: ${formData.textSnippet}`,
+      language: 'english'
+    });
 
-      if (response.data && response.data.success) {
-        setStatus({ type: 'success', text: '⚡ Broadcast Alert Active: Added to Global Grid.' });
-        setFormData({ textSnippet: '', threatType: 'Phishing / Banking' });
-  
-        if (onScamReported) onScamReported();
-      } else {
-        throw new Error("Backend response validation failed");
-      }
-    } catch (error) {
-      console.error("Error reporting scam, switching to fail-safe submission:", error);
+    if (response.data && response.data.success) {
+      setFormData({ textSnippet: '', threatType: 'BANKING PHISHING' });
+      setStatus({ type: 'success', text: '⚡ Broadcast Alert Active: Added to Global Grid.' });
       
-      setStatus({ type: 'success', text: '⚡ Broadcast Alert Active (Standby Mode): Logged to Grid.' });
-      setFormData({ textSnippet: '', threatType: 'Phishing / Banking' });
-    
       if (onScamReported) onScamReported();
-    } finally {
-      setLoading(false);
-      setTimeout(() => {
-        setStatus({ type: '', text: '' });
-      }, 4000);
+    } else {
+      throw new Error("Backend response validation failed");
     }
-  };
+  } catch (error) {
+    console.error("Error reporting scam, switching to fail-safe submission:", error);
+    
+    setFormData({ textSnippet: '', threatType: 'BANKING PHISHING' });
+    setStatus({ type: 'success', text: '⚡ Broadcast Alert Active (Standby Mode): Logged to Grid.' });
+  
+    if (onScamReported) onScamReported();
+  } finally {
+    setLoading(false);
+    
+    setTimeout(() => {
+      setStatus({ type: '', text: '' });
+    }, 4000);
+  }
+};
 
   return (
     <div className="bg-[#0d1527]/80 border border-slate-800/60 backdrop-blur-md p-4 sm:p-6 rounded-xl shadow-2xl relative font-sans mt-6 sm:mt-11 mx-1 sm:mx-0 box-border">
